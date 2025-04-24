@@ -81,35 +81,35 @@ export default new Router({
           component: () => import('@/views/profile/index')
         },
         // 订阅订单
-        // {
-        //   path: '/user/order',
-        //   name: 'Order',
-        //   meta: { title: '订阅订单' },
-        //   component: () => import('@/views/order')
-        // }
+        {
+          path: '/user/order',
+          name: 'Order',
+          meta: { title: '订阅订单' },
+          component: () => import('@/views/order')
+        }
       ]
     },
-    // {
-    //   path: '/recruit',
-    //   component: Layout,
-    //   redirect: '/recruit/claim',
-    //   children: [
-    //     // 招聘要求
-    //     {
-    //       path: '/recruit/claim',
-    //       name: 'Recruit',
-    //       meta: { title: '讲师入驻' },
-    //       component: () => import('@/views/recruit/recruit_reqm')
-    //     },
-    //     // 入驻申请
-    //     {
-    //       path: '/recruit/apply',
-    //       name: 'Apply',
-    //       meta: { title: '讲师入驻' },
-    //       component: () => import('@/views/recruit/apply')
-    //     }
-    //   ]
-    // },
+    {
+      path: '/recruit',
+      component: Layout,
+      redirect: '/recruit/claim',
+      children: [
+        // 招聘要求
+        {
+          path: '/recruit/claim',
+          name: 'Recruit',
+          meta: { title: '讲师入驻' },
+          component: () => import('@/views/recruit/recruit_reqm')
+        },
+        // 入驻申请
+        {
+          path: '/recruit/apply',
+          name: 'Apply',
+          meta: { title: '讲师入驻' },
+          component: () => import('@/views/recruit/apply')
+        }
+      ]
+    },
 
     // 404 page must be placed at the end !!!
     { path: '*', redirect: '/404', hidden: true }
