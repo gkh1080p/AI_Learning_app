@@ -110,6 +110,12 @@ export default new Router({
         }
       ]
     },
+    {
+      path: '/tool',
+      name: 'tool',
+      meta: { title: '订阅订单' },
+      component: () => import('@/components/common/tool'),
+    },
 
     // 404 page must be placed at the end !!!
     { path: '*', redirect: '/404', hidden: true }
