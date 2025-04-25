@@ -25,37 +25,8 @@ export default {
   data() {
     return {
       selectionValue: null,
-      subjectData: [
-        {
-          id: 1,
-          title: 'Mathematics',
-          children: [
-            { id: 11, title: 'Algebra' },
-            { id: 12, title: 'Geometry' }
-          ]
-        },
-        {
-          id: 2,
-          title: 'Science',
-          children: [
-            { id: 21, title: 'Physics' },
-            { id: 22, title: 'Chemistry' }
-          ]
-        },
-        {
-          id: 3,
-          title: 'Languages',
-          children: [
-            { id: 31, title: 'English' },
-            { id: 32, title: 'Spanish' }
-          ]
-        }
-      ],
-      bannerData: [
-        { id: 1, imageUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg', linkUrl: 'https://example.com/banner1', title: 'Banner 1' },
-        { id: 2, imageUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg', linkUrl: 'https://example.com/updated2', title: 'Updated Banner 2' },
-        { id: 3, imageUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg', linkUrl: 'https://example.com/updated3', title: 'Updated Banner 3' },
-      ]
+      subjectData: [],
+      bannerData:[]
     }
   },
   created() {

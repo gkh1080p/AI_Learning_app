@@ -16,6 +16,7 @@
       <router-link class="nav-item el-link el-link--default" :to="{ name: 'tool' }">
         工具分享
       </router-link>
+      
       <el-input ref="SearchInput" v-model.trim="searchInput" size="small" class="nav-search" placeholder="搜索课程..."
         @keyup.enter.native="search">
         <el-button slot="append" icon="el-icon-search" style="color: #fff" @click="search" />

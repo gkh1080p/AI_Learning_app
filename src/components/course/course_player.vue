@@ -14,19 +14,16 @@
     <el-col :key="refreshKey" :span="7" class="selection">
       <div v-for="chapter of chapterData" :key="chapter.id" class="chapter">
         <div class="title ellipse" :title="chapter.title">{{ chapter.title }}</div>
-        <div
-          v-for="value of videoData[chapter.id]"
-          :key="`${chapter.id}:${value.id}`"
-          :class="{'video':true,'active':activeItem===`${chapter.id}:${value.id}`}"
-          @click="clickChapterItem(value,`${chapter.id}:${value.id}`)"
-        >
+        <div v-for="value of videoData[chapter.id]" :key="`${chapter.id}:${value.id}`"
+          :class="{ 'video': true, 'active': activeItem === `${chapter.id}:${value.id}` }"
+          @click="clickChapterItem(value, `${chapter.id}:${value.id}`)">
           <div class="title ellipse" :title="value.title">
             <i class="el-icon-video-play" />
             {{ value.title }}
           </div>
           <div class="info">
             <span class="duration">时长: {{ value.duration }}</span>
-            <span v-if="course.price>0&&value.free" class="free">免费</span>
+            <span v-if="course.price > 0 && value.free" class="free">免费</span>
           </div>
         </div>
       </div>
@@ -125,7 +122,7 @@ export default {
         const firstVideo = this.videoData[firstChapterId][0]
         this.play(firstVideo)
         // eslint-disable-next-line no-empty
-        setTimeout(function() {
+        setTimeout(function () {
           this.player.play()
         }.bind(this), 1000)
         // 设置第一个视频激活
@@ -144,7 +141,11 @@ export default {
             width: '100%',
             height: '100%',
             vid: params.videoSourceId,
-            playauth: resp.data
+            playauth: resp.data,
+
+          })
+          this.player.on('ready', () => {
+            this.player.play()
           })
         })
         .catch(err => {
@@ -175,7 +176,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .player {
   position: absolute;
   top: 0;
@@ -244,7 +244,7 @@ export default {
   color: #c7c7c7;
   margin-top: 16px;
 
-  > .title {
+  >.title {
     font-size: 16px;
   }
 
@@ -257,7 +257,8 @@ export default {
       margin-right: 6px;
     }
 
-    &:hover, &.active {
+    &:hover,
+    &.active {
       color: #20a0ff;
 
       .duration {
