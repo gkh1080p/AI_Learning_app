@@ -22,8 +22,8 @@
         <el-button slot="append" icon="el-icon-search" style="color: #fff" @click="search" />
       </el-input>
       <div class="nav-right">
-        <router-link v-if="user !== null && Object.keys(user).length !== 0" class="nav-item el-link el-link--default"
-          :to="{ name: 'Order' }">订阅订单</router-link>
+        <!-- <router-link v-if="user !== null && Object.keys(user).length !== 0" class="nav-item el-link el-link--default"
+          :to="{ name: 'Order' }">订阅订单</router-link> -->
         <el-link v-if="user === null || Object.keys(user).length === 0" :underline="false" class="nav-item"
           @click="$login">登录/注册</el-link>
         <el-dropdown v-else class="avatar-container" trigger="hover">

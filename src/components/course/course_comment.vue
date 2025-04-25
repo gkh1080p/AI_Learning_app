@@ -3,17 +3,20 @@
     <div style="text-align: right">
       <el-button size="small" type="primary" @click="openDialog">发表评价</el-button>
     </div>
-    <div v-for="comment in listData" :key="comment.id" class="comment-item">
+    <div v-if="listData.length === 0" class="no-comments" style="text-align: center; margin: 20px 0;">暂无评论</div>
+    <div v-else>
+      <div v-for="comment in listData" :key="comment.id" class="comment-item">
       <div class="member">
         <el-avatar :src="comment.memberAvatar" />
         <div class="ellipse">{{ comment.memberName }}</div>
       </div>
       <div class="content">
         <div>
-          <el-rate :value="comment.mark" disabled disabled-void-color="#ccc" />
+        <el-rate :value="comment.mark" disabled disabled-void-color="#ccc" />
         </div>
         <div class="text">{{ comment.content }}</div>
         <div class="ct">发表时间：{{ comment.createTime }}</div>
+      </div>
       </div>
     </div>
     <div class="pagination">
@@ -103,7 +106,7 @@ export default {
     getList() {
       const params = { courseId: this.course.id, ...this.searchParams }
       getCourseComment(params).then(resp => {
-        this.listData = resp.data.list
+        this.listData = resp.data.list 
         this.total = resp.data.total
       })
     },

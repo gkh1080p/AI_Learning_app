@@ -4,7 +4,7 @@
       <!-- 面包屑 -->
       <el-breadcrumb separator-class="el-icon-arrow-right" style="margin: 20px 0;color: #333">
         <el-breadcrumb-item>全部课程</el-breadcrumb-item>
-        <el-breadcrumb-item v-for="(item,index) in getDetailsSubject(course.subjectParent)" :key="index">
+        <el-breadcrumb-item v-for="(item, index) in getDetailsSubject(course.subjectParent)" :key="index">
           {{ item }}
         </el-breadcrumb-item>
         <el-breadcrumb-item>{{ course.title }}</el-breadcrumb-item>
@@ -27,12 +27,8 @@
           </div>
           <div style="margin-left: auto">
             <div style="width: 22vw;text-align: center">
-              <el-button
-                type="primary"
-                style="width: 18vw;font-size: 18px"
-                icon="el-icon-plus"
-                @click="openBuyCourseDialog"
-              >
+              <el-button type="primary" style="width: 18vw;font-size: 18px" icon="el-icon-plus"
+                @click="openBuyCourseDialog">
                 订阅课程
               </el-button>
             </div>
@@ -47,6 +43,12 @@
             <el-tab-pane label="课程评价" lazy>
               <v-course-comment :course="course" />
             </el-tab-pane>
+            <el-tab-pane label="讲义下载" lazy>
+              <div style="padding: 20px 0;text-align: center;font-size: 16px;color: #999">
+                  <v-couse-handouts :course="course"></v-couse-handouts>
+              </div>
+              <v-couse-handouts :course="course"></v-couse-handouts>
+            </el-tab-pane>
           </el-tabs>
         </div>
         <!-- 讲师简介 -->
@@ -54,7 +56,7 @@
           <el-card>
             <div slot="header">讲师简介</div>
             <div style="display: flex;align-items: center;">
-              <router-link :to="{name: 'SearchByTeacher', params: { teacher: teacher.id || 0 }}">
+              <router-link :to="{ name: 'SearchByTeacher', params: { teacher: teacher.id || 0 } }">
                 <el-avatar fit="contain" :src="teacher.avatar" :size="70" style="float: left;margin-right: 12px" />
               </router-link>
               <div>
@@ -74,7 +76,7 @@
         </div>
       </div>
     </el-col>
-    <el-dialog
+    <!-- <el-dialog
       :title="`支付订单《${course.title}》`"
       :visible.sync="buyCourseDialogVisible"
       :close-on-click-modal="false"
@@ -106,7 +108,7 @@
           点击支付
         </el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
   </el-row>
 </template>
 
@@ -118,55 +120,88 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Course',
   components: {
+    // 课程播放器组件
     'v-course-player': () => import('@/components/course/course_player'),
+    // 课程评论组件
     'v-course-comment': () => import('@/components/course/course_comment'),
+    // 课程讲义组件
+    'v-couse-handouts': () => import('@/components/course/course_handouts'),
+    // 倒计时组件（用于支付）
     MvCountDown
   },
   data() {
     return {
+      // 当前课程信息对象
       course: {},
+      // 讲师信息对象
       teacher: {},
+      // 是否显示购买对话框
       buyCourseDialogVisible: false,
+      // 当前订单编号
       orderNo: '',
+      // 当前用户是否已经购买该课程
       isBuyTheCourse: false
     }
   },
   computed: {
+    // 从 Vuex 中获取登录用户信息
     ...mapGetters(['user']),
-    showBuyBanner: function() {
+    // 是否展示课程购买栏（如果课程价格不为0并且用户未购买）
+    showBuyBanner: function () {
       return !(this.course.price === 0 || this.isBuyTheCourse)
     }
   },
   created() {
+    // 组件创建时获取课程ID并加载课程数据
     const courseId = this.$route.params.id
     this.getCourseData(courseId)
     this.getIsBuyCourse(courseId)
   },
   methods: {
+    /**
+     * 获取课程详情数据，并初始化讲师信息及播放器
+     * @param {String|Number} id - 课程ID
+     */
     getCourseData(id) {
       getCourseDetail(id).then(resp => {
         this.course = resp.data
         // 获取讲师信息
         this.getTeacher(this.course.teacherId)
-        // 初始化播放器
-        setTimeout(function() {
+        // 延迟初始化播放器
+        setTimeout(function () {
           this.$refs.CoursePlayer.setData(this.course)
         }.bind(this), 100)
       })
     },
+
+    /**
+     * 获取讲师信息
+     * @param {String|Number} id - 讲师ID
+     */
     getTeacher(id) {
       getTeacher(id).then(resp => {
         this.teacher = resp.data
       })
     },
+
+    /**
+     * 判断当前用户是否已经购买该课程
+     * @param {String|Number} id - 课程ID
+     */
     getIsBuyCourse(id) {
       if (this.user === null || Object.keys(this.user).length === 0) {
-        return
+        return // 未登录不执行
       }
       getIsBuyCourse(id).then(resp => {
         this.isBuyTheCourse = resp.data
       })
     },
+
+    /**
+     * 递归获取课程所属学科的层级信息（用于面包屑）
+     * @param {Object} subjectParent - 父学科对象
+     * @returns {Array} - 学科名称数组
+     */
     getDetailsSubject(subjectParent) {
       let subject = []
       let parent = subjectParent
@@ -176,25 +211,33 @@ export default {
       }
       return subject
     },
+
+    /**
+     * 打开购买课程弹窗，如果未登录先登录，然后创建订单
+     */
     openBuyCourseDialog() {
       if (this.user === null || Object.keys(this.user).length === 0) {
-        // this.$message.info('请登录后再操作')
+        // 弹出登录窗口
         this.$login()
         return
       }
-      // 创建订单
+      // 创建订单请求参数
       const params = {
         courseId: this.course.id,
         memberId: this.user.id,
         totalFee: this.course.price
       }
+      // 发送创建订单请求
       createOrder(params).then(resp => {
         this.$message({ message: resp.message, type: 'success', customClass: 'elmessage' })
         this.orderNo = resp.data
         this.buyCourseDialogVisible = true
       })
     },
-    // 支付订单成功
+
+    /**
+     * 模拟订单支付成功流程（实际支付逻辑应该在后端完成）
+     */
     buyCourse() {
       if (this.orderNo) {
         orderPaySucceed(this.orderNo).then(resp => {
@@ -203,6 +246,11 @@ export default {
         })
       }
     },
+
+    /**
+     * 跳转到讲师搜索页（查看该讲师的其他课程）
+     * @param {Number} tid - 讲师ID
+     */
     linkToTeacher(tid) {
       this.$router.push({
         name: 'SearchByTeacher',
@@ -212,6 +260,7 @@ export default {
   }
 }
 </script>
+
 
 <style lang="scss">
 .el-tabs__item {
@@ -240,6 +289,7 @@ export default {
 
 // 课程介绍颜色
 .course-descriptiont {
+
   /* table 样式 */
   table {
     border-top: 1px solid #ccc;
@@ -285,7 +335,8 @@ export default {
   }
 
   /* ul ol 样式 */
-  ul, ol {
+  ul,
+  ol {
     margin: 10px 0 10px 20px;
   }
 }
