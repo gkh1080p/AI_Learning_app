@@ -3,8 +3,8 @@
     <el-col :span="20" class="nav-content">
       <router-link to="/" class="logo" style="color: #409eff;margin-right: 10px;">
         <div class="nav ">
-          <el-image class="nav_one" style="width: 100px; height: 100px;margin-top: 10px;" src="https://i.imgur.com/EJ3x16E.png"
-            fit="contain" />
+          <el-image class="nav_one" style="width: 100px; height: 100px;margin-top: 10px;"
+            src="https://i.imgur.com/EJ3x16E.png" fit="contain" />
         </div>
       </router-link>
       <router-link class="nav-item el-link el-link--default" :to="{ name: 'Index' }">
@@ -13,13 +13,14 @@
       <!-- <a href="http://47.97.68.43:8080/#/de-link/dguKo3vx">
         学习状态分析
       </a> -->
-      <router-link class="nav-item el-link el-link--default" :to="{ name: 'report',params: { userid: this.user.id } }">
+      <router-link class="nav-item el-link el-link--default" v-if="user && user.id"
+        :to="{ name: 'report', params: { userid: this.user.id } }">
         学习报告
       </router-link>
       <router-link class="nav-item el-link el-link--default" :to="{ name: 'tool' }">
         工具分享
       </router-link>
-      
+
       <el-input ref="SearchInput" v-model.trim="searchInput" size="small" class="nav-search" placeholder="搜索课程..."
         @keyup.enter.native="search">
         <el-button slot="append" icon="el-icon-search" style="color: #fff" @click="search" />
@@ -30,7 +31,7 @@
         <el-link v-if="user === null || Object.keys(user).length === 0" :underline="false" class="nav-item"
           @click="$login">登录/注册</el-link>
         <el-dropdown v-else class="avatar-container" trigger="hover">
-          <div class="avatar-wrapper">
+          <div class="avatar-wrapper">56
             <el-avatar :size="32" :src="user.avatar" fit="contain" />
             <span class="name">{{ user.nickname || '' }}</span>
             <i class="el-icon-caret-bottom" />
