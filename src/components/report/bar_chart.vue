@@ -68,6 +68,12 @@ export default {
                         formatter: `{value} ${this.unit}`,
                     },  // 使用传入的单位
                 },
+                grid: {
+                    left: '15%',  // 设置左边留白空间，避免 X 轴标签被遮挡
+                    right: '10%',
+                    bottom: '15%',
+                    top: '15%',
+                },
                 series: [
                     {
                         name: '时长',
@@ -120,7 +126,7 @@ export default {
 
 <style scoped>
 .bar-chart {
-    width: 100%;
+    width: 90%;
     height: 400px;
 }
 </style>
