@@ -10,9 +10,12 @@
       <router-link class="nav-item el-link el-link--default" :to="{ name: 'Index' }">
         AI机器人
       </router-link>
-      <a href="http://47.97.68.43:8080/#/de-link/dguKo3vx">
+      <!-- <a href="http://47.97.68.43:8080/#/de-link/dguKo3vx">
         学习状态分析
-      </a>
+      </a> -->
+      <router-link class="nav-item el-link el-link--default" :to="{ name: 'report',params: { userid: this.user.id } }">
+        学习报告
+      </router-link>
       <router-link class="nav-item el-link el-link--default" :to="{ name: 'tool' }">
         工具分享
       </router-link>

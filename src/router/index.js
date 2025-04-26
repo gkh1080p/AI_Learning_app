@@ -113,8 +113,20 @@ export default new Router({
     {
       path: '/tool',
       name: 'tool',
-      meta: { title: '订阅订单' },
+      meta: { title: '工具分享' },
       component: () => import('@/components/common/tool'),
+    },
+    {
+      path: '/question/:id',
+      name: 'question',
+      meta: { title: '课后练习' },
+      component: () => import('@/components/question/question_bank.vue'),
+    },
+    {
+      path: '/report/:userid',
+      name: 'report',
+      meta: { title: '学习报告' },
+      component: () => import('@/components/report/report_student.vue'),
     },
 
     // 404 page must be placed at the end !!!

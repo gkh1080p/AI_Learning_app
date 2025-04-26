@@ -38,7 +38,7 @@
       <!-- 课程简介、评价 -->
       <div class="clearfix" style="margin-top: 20px">
         <div style="width: 73%;background-color: #fff;padding: 10px 20px;float: left;">
-          <el-tabs>
+          <el-tabs @tab-click="handleTabClick">
             <el-tab-pane label="课程概述" class="course-descriptiont" v-html="course.description" />
             <el-tab-pane label="课程评价" lazy>
               <v-course-comment :course="course" />
@@ -47,7 +47,9 @@
               <div style="padding: 20px 0;text-align: center;font-size: 16px;color: #999">
                   <v-couse-handouts :course="course"></v-couse-handouts>
               </div>
-              <v-couse-handouts :course="course"></v-couse-handouts>
+            </el-tab-pane>
+            <el-tab-pane label="课后练习" lazy>
+              <router-link :to="{name: 'question',params:{id:course.id}}"></router-link>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -172,6 +174,17 @@ export default {
           this.$refs.CoursePlayer.setData(this.course)
         }.bind(this), 100)
       })
+    },
+
+    /**
+     * 处理选项卡点击事件
+     * @param {Object} tab - 被点击的选项卡对象
+     */
+    handleTabClick(tab) {
+      // 处理选项卡点击事件
+      if (tab.label === '课后练习') {
+        this.$router.push({ name: 'question', params: { id: this.course.id } })
+      }
     },
 
     /**
