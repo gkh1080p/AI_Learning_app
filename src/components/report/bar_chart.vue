@@ -47,6 +47,16 @@ export default {
             this.chartInstance = echarts.init(this.$refs.chartContainer);
 
             // 配置图表选项
+            this.setChartOptions();
+        },
+        resizeChart() {
+            // 调整图表大小
+            if (this.chartInstance) {
+                this.chartInstance.resize();
+            }
+        },
+        setChartOptions() {
+            // 配置图表选项
             const options = {
                 title: {
                     text: '一周学习情况图',
@@ -65,11 +75,11 @@ export default {
                 yAxis: {
                     type: 'value',
                     axisLabel: {
-                        formatter: `{value} ${this.unit}`,
-                    },  // 使用传入的单位
+                        formatter: `{value} ${this.unit}`, // 使用传入的单位
+                    },
                 },
                 grid: {
-                    left: '15%',  // 设置左边留白空间，避免 X 轴标签被遮挡
+                    left: '15%', // 设置左边留白空间，避免 X 轴标签被遮挡
                     right: '10%',
                     bottom: '15%',
                     top: '15%',
@@ -89,37 +99,25 @@ export default {
             // 设置图表选项
             this.chartInstance.setOption(options);
         },
-        resizeChart() {
-            // 调整图表大小
-            if (this.chartInstance) {
-                this.chartInstance.resize();
-            }
-        },
         updateChart() {
-            const options = {
-                title: { text: '一周学习情况图', left: 'center' },
-                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-                xAxis: { type: 'category', data: this.chartLabels },
-                yAxis: {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: `{value} ${this.unit}`,
-                    },
-                },
-                series: [{
-                    name: '数据',
-                    type: 'bar',
-                    data: this.chartData,
-                    itemStyle: { color: '#5470C6' },
-                }]
-            };
-            this.chartInstance.setOption(options);
+            // 更新图表的配置
+            this.setChartOptions();
         }
     },
     watch: {
         // 监听数据变化，更新图表
         chartData: 'updateChart',
         chartLabels: 'updateChart',
+        barColor: function(newColor) {
+            // 当主题色变化时，更新图表颜色
+            if (this.chartInstance) {
+                this.chartInstance.setOption({
+                    series: [{
+                        itemStyle: { color: newColor } // 更新颜色
+                    }]
+                });
+            }
+        }
     },
 };
 </script>

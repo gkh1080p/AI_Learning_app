@@ -1,6 +1,20 @@
 <template>
     <div class="report-study">
+        <!-- 悬浮调色面板 -->
+        <!-- <el-button @click="showColorPanel = !showColorPanel" class="color-ball" size="small" type="primary"><i
+                class="el-icon-color"></i>
+        </el-button> -->
+        <el-color-picker v-if="showColorPanel" v-model="theme_color" @change="changeColor" size="small"
+            class="color-picker-panel">
+        </el-color-picker>
+
+        <div class="calendar-row">
+            <div class="chart-box">
+                <CalendarChart :calendarData="calendar.data" :year="calendar.year" :themeColor="theme_color" />
+            </div>
+        </div>
         <div class="charts-row">
+
             <!-- 柱状图 -->
             <div class="chart-box">
                 <BarChart :chartData="bar.chartData" :chartLabels="bar.chartLabels" :barColor="theme_color"
@@ -22,7 +36,10 @@
                 </div>
                 <LearningChart :dayData="getMergedData()" :title="learn.selectedDays.join('、') + '学习时段分布'" />
             </div>
+
+
         </div>
+
     </div>
 </template>
 
@@ -31,21 +48,25 @@
 <script>
 import BarChart from "./bar_chart.vue";
 import LearningChart from "./learning_chart.vue";
-
+import CalendarChart from "./calender_chart.vue";
 export default {
     name: "report",
     components: {
         BarChart,
         LearningChart,
+        CalendarChart,
     },
     data() {
         return {
             theme_color: "#146058", // 主题配色
+            showColorPanel: true, // 添加此行来初始化 showColorPanel
             userId: null,
+            // 树状图数据
             bar: {
                 chartData: [120, 200, 150, 80, 70, 110, 130],
                 chartLabels: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
             },
+            // 玫瑰图数据
             learn: {
                 selectedDays: ['周一'],
                 isAllSelected: false,  // 是否全选
@@ -95,6 +116,78 @@ export default {
                     ]
                 }
             },
+            // 日历图数据
+            calendar: {
+                year: 2025,
+                data: [
+                    ['2025-01-01', 1],
+                    ['2025-01-02', 0],
+                    ['2025-01-03', 1],
+                    ['2025-01-04', 0],
+                    ['2025-01-05', 1],
+                    ['2025-01-06', 0],
+                    ['2025-01-07', 1],
+                    ['2025-01-08', 0],
+                    ['2025-01-09', 1],
+                    ['2025-01-10', 0],
+                    ['2025-01-11', 1],
+                    ['2025-01-12', 0],
+                    ['2025-01-13', 1],
+                    ['2025-01-14', 0],
+                    ['2025-01-15', 1],
+                    ['2025-01-16', 0],
+                    ['2025-01-17', 1],
+                    ['2025-01-18', 0],
+                    ['2025-01-19', 1],
+                    ['2025-01-20', 0],
+                    ['2025-01-21', 1],
+                    ['2025-01-22', 0],
+                    ['2025-01-23', 1],
+                    ['2025-01-24', 0],
+                    ['2025-01-25', 1],
+                    ['2025-01-26', 0],
+                    ['2025-01-27', 1],
+                    ['2025-01-28', 0],
+                    ['2025-01-29', 1],
+                    ['2025-01-30', 0],
+                    ['2025-01-31', 1],
+                    ['2025-02-01', 0],
+                    ['2025-02-02', 1],
+                    ['2025-02-03', 0],
+                    ['2025-02-04', 1],
+                    ['2025-02-05', 0],
+                    ['2025-02-06', 1],
+                    ['2025-02-07', 0],
+                    ['2025-02-08', 1],
+                    ['2025-02-09', 0],
+                    ['2025-02-10', 1],  
+                    ['2025-02-11', 0],
+                    ['2025-02-12', 1],
+                    ['2025-02-13', 0],
+                    ['2025-02-14', 1],
+                    ['2025-02-15', 0],
+                    ['2025-02-16', 1],
+                    ['2025-02-17', 0],
+                    ['2025-02-18', 1],
+                    ['2025-02-19', 0],
+                    ['2025-02-20', 1],
+                    ['2025-02-21', 0],
+                    ['2025-02-22', 1],
+                    ['2025-02-23', 0],
+                    ['2025-02-24', 1],
+                    ['2025-02-25', 0],
+                    ['2025-02-26', 1],
+                    ['2025-02-27', 0],
+                    ['2025-02-28', 1],
+                    ['2025-03-01', 0],
+                    ['2025-03-02', 1],
+                    ['2025-03-03', 0],
+                    ['2025-03-04', 1],
+                    ['2025-03-05', 0],
+                    ['2025-03-06', 1],
+                    ['2025-03-07', 0],
+                ]
+            }
         };
     },
     created() {
@@ -139,6 +232,10 @@ export default {
             });
 
             return merged;
+        },
+        // 修改主题色
+        changeColor(newColor) {
+            this.theme_color = newColor;
         }
     }
 };
@@ -175,6 +272,8 @@ export default {
     align-items: center;
 }
 
+
+
 .day-tabs {
     margin-bottom: 10px;
 }
@@ -206,5 +305,50 @@ export default {
 .select-all button.active {
     background: v-bind(theme_color);
     color: #fff;
+}
+
+.calendar-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.calendar-row .chart-box {
+    flex: 1 1 100%;
+    max-width: 1500px;
+    min-width: 300px;
+    height: 260px;
+    /* 日历图稍微高一点也可以 */
+}
+
+
+/* 悬浮调色面板 */
+.color-picker-panel {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    z-index: 999;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.color-ball {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: v-bind(theme_color); /* 初始颜色 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  cursor: pointer;
+  border: none;
+}
+.color-ball i {
+  color: #fff;
+  font-size: 24px;
 }
 </style>
