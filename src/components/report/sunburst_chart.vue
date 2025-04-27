@@ -58,8 +58,8 @@ export default {
           {
             type: 'sunburst',
             radius: ['15%', '95%'],
-            sort: null, // ⭐ 关键，禁用默认从大到小排序
-            data: this.chartData, // 确保每个节点有 value
+            sort: null, 
+            data: this.chartData, 
             label: {
               rotate: 'radial'
             },
@@ -70,7 +70,7 @@ export default {
                 r: '35%',
                 itemStyle: {
                   borderWidth: 2,
-                  gapWidth: 2 // ⭐ 让节点之间有空隙
+                  gapWidth: 2 
                 },
                 label: {
                   rotate: 0,

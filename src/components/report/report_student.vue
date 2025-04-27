@@ -46,10 +46,15 @@
 
         </div>
 
-        <!-- 旭日图 -->
+
         <div class="sunburst-row">
+            <!-- 旭日图 -->
             <div class="chart-box sunburst-container">
                 <Sunburst :chartData="sunburstData" :themeColor="theme_color" />
+            </div>
+            <!-- 凹凸图 -->
+            <div class="chart-box sunburst-container">
+                <BumpChart :courseData="bumpData" :themeColor="theme_color" />
             </div>
         </div>
     </div>
@@ -63,7 +68,7 @@ import LearningChart from "./learning_chart.vue";
 import CalendarChart from "./calender_chart.vue";
 import PieChart from "./pie_chart.vue";
 import Sunburst from "./sunburst_chart.vue";
-
+import BumpChart from "./bump_chart.vue";
 export default {
     name: "report",
     components: {
@@ -71,11 +76,12 @@ export default {
         LearningChart,// 引入学习时段分布图组件
         CalendarChart,// 引入日历图组件
         PieChart,// 引入饼图组件
-        Sunburst
+        Sunburst,// 引入旭日图组件
+        BumpChart,// 引入凹凸图组件
     },
     data() {
         return {
-            theme_color: "#146058", // 主题配色
+            theme_color: "#adeebd", // 主题配色
             showColorPanel: true, // 添加此行来初始化 showColorPanel
             userId: null,
             // 树状图数据
@@ -257,7 +263,47 @@ export default {
                     ]
                 }
 
+            ],
+            // 凹凸图数据
+            bumpData: [
+                {
+                    name: '历史启蒙',
+                    data: [10, 12, 9, 14, 11, 13, 15]
+                },
+                {
+                    name: '文学欣赏',
+                    data: [8, 9, 7, 10, 9, 8, 11]
+                },
+                {
+                    name: '游泳基础',
+                    data: [5, 6, 7, 5, 6, 8, 7]
+                },
+                {
+                    name: '篮球技巧',
+                    data: [4, 5, 4, 6, 5, 5, 6]
+                },
+                {
+                    name: '机器人入门',
+                    data: [12, 13, 11, 14, 12, 15, 16]
+                },
+                {
+                    name: '人工智能基础',
+                    data: [15, 16, 14, 17, 15, 18, 19]
+                },
+                {
+                    name: '油画基础',
+                    data: [5, 6, 4, 7, 5, 6, 8]
+                },
+                {
+                    name: '钢琴启蒙',
+                    data: [9, 10, 8, 11, 9, 10, 12]
+                },
+                {
+                    name: '创业思维',
+                    data: [6, 7, 5, 8, 6, 7, 9]
+                }
             ]
+
 
 
         };
@@ -428,8 +474,9 @@ export default {
 
 .sunburst-row {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     margin-top: 20px;
+    gap: 20px;
 }
 
 
