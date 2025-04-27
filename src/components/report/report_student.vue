@@ -8,6 +8,7 @@
             class="color-picker-panel">
         </el-color-picker>
 
+        <!-- 日历图 -->
         <div class="calendar-row">
             <div class="chart-box">
                 <CalendarChart :calendarData="calendar.data" :year="calendar.year" :themeColor="theme_color" />
@@ -34,12 +35,23 @@
                         </button>
                     </div>
                 </div>
-                <LearningChart :dayData="getMergedData()" :title="learn.selectedDays.join('、') + '学习时段分布'" />
+                <LearningChart :themeColor="theme_color" :dayData="getMergedData()"
+                    :title="learn.selectedDays.join('、') + '学习时段分布'" />
             </div>
 
+            <!-- 饼图 -->
+            <div class="chart-box">
+                <PieChart :pieData="pie.data" :title="'学习模块占比'" :themeColor="theme_color" />
+            </div>
 
         </div>
 
+        <!-- 旭日图 -->
+        <div class="sunburst-row">
+            <div class="chart-box sunburst-container">
+                <Sunburst :chartData="sunburstData" :themeColor="theme_color" />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -49,12 +61,17 @@
 import BarChart from "./bar_chart.vue";
 import LearningChart from "./learning_chart.vue";
 import CalendarChart from "./calender_chart.vue";
+import PieChart from "./pie_chart.vue";
+import Sunburst from "./sunburst_chart.vue";
+
 export default {
     name: "report",
     components: {
-        BarChart,
-        LearningChart,
-        CalendarChart,
+        BarChart,// 引入柱状图组件
+        LearningChart,// 引入学习时段分布图组件
+        CalendarChart,// 引入日历图组件
+        PieChart,// 引入饼图组件
+        Sunburst
     },
     data() {
         return {
@@ -160,7 +177,7 @@ export default {
                     ['2025-02-07', 0],
                     ['2025-02-08', 1],
                     ['2025-02-09', 0],
-                    ['2025-02-10', 1],  
+                    ['2025-02-10', 1],
                     ['2025-02-11', 0],
                     ['2025-02-12', 1],
                     ['2025-02-13', 0],
@@ -187,7 +204,62 @@ export default {
                     ['2025-03-06', 1],
                     ['2025-03-07', 0],
                 ]
-            }
+            },
+
+            // 饼图数据
+            pie: {
+                data: [
+                    { name: '数学', value: 40 },
+                    { name: '英语', value: 30 },
+                    { name: '编程', value: 20 },
+                    { name: '物理', value: 10 }
+                ]
+            },
+            // 旭日图数据
+            sunburstData: [
+                {
+                    name: '科技类',
+                    value: 30,
+                    children: [
+                        { name: '机器人入门', value: 12 },
+                        { name: '人工智能基础', value: 15 }
+                    ]
+                },
+                {
+                    name: '艺术类',
+                    value: 30,
+                    children: [
+                        { name: '油画基础', value: 5 },
+                        { name: '钢琴启蒙', value: 9 }
+                    ]
+                },
+                {
+                    name: '创新类',
+                    value: 30,
+                    children: [
+                        { name: '创业思维', value: 6 }
+                    ]
+                },
+                {
+                    name: '人文类',
+                    value: 20,
+                    children: [
+                        { name: '历史启蒙', value: 8 },
+                        { name: '文学欣赏', value: 10 }
+                    ]
+                },
+                {
+                    name: '体育类',
+                    value: 30,
+                    children: [
+                        { name: '游泳基础', value: 5 },
+                        { name: '篮球技巧', value: 7 }
+                    ]
+                }
+
+            ]
+
+
         };
     },
     created() {
@@ -259,7 +331,7 @@ export default {
 .chart-box {
     flex: 1 1 500px;
     /* 每个图最小500px，可以伸缩 */
-    max-width: 500px;
+    max-width: 460px;
     min-width: 300px;
     height: 320px;
     background: #ffffff;
@@ -332,23 +404,40 @@ export default {
 }
 
 .color-ball {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: v-bind(theme_color); /* 初始颜色 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
-  cursor: pointer;
-  border: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: v-bind(theme_color);
+    /* 初始颜色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    cursor: pointer;
+    border: none;
 }
+
 .color-ball i {
-  color: #fff;
-  font-size: 24px;
+    color: #fff;
+    font-size: 24px;
+}
+
+.sunburst-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+
+.sunburst-row .sunburst-container {
+    /* 防止过小 */
+    max-width: 700px;
+    /* 防止过大 */
+    height: 500px;
+
 }
 </style>
