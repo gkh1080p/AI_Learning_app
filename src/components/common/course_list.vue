@@ -48,6 +48,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.course {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* 关键修复：强制左对齐 */
+}
 .course-item {
   background-color: #FFFFFF;
   margin-bottom: 20px;
