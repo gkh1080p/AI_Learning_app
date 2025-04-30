@@ -104,6 +104,7 @@ export default {
   },
   methods: {
     getList() {
+      console.log('获取评论列表', this.course)
       const params = { courseId: this.course.id, ...this.searchParams }
       getCourseComment(params).then(resp => {
         this.listData = resp.data.list 

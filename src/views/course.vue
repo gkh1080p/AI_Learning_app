@@ -44,12 +44,10 @@
               <v-course-comment :course="course" />
             </el-tab-pane>
             <el-tab-pane label="讲义下载" lazy>
-              <div style="padding: 20px 0;text-align: center;font-size: 16px;color: #999">
-                  <v-couse-handouts :course="course"></v-couse-handouts>
-              </div>
+              <v-course-handouts :course="course" />
             </el-tab-pane>
             <el-tab-pane label="课后练习" lazy>
-              <router-link :to="{name: 'question',params:{id:course.id}}"></router-link>
+              <router-link :to="{ name: 'question', params: { id: course.id } }"></router-link>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -127,7 +125,7 @@ export default {
     // 课程评论组件
     'v-course-comment': () => import('@/components/course/course_comment'),
     // 课程讲义组件
-    'v-couse-handouts': () => import('@/components/course/course_handouts'),
+    'v-course-handouts': () => import('@/components/course/course_handouts'),
     // 倒计时组件（用于支付）
     MvCountDown
   },

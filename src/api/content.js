@@ -137,3 +137,9 @@ export function orderPaySucceed(orderNo) {
     method: 'post'
   })
 }
+ export function getmaterials(chapterId) {
+  return request({
+    url: `${api_prefix}/list/material/${chapterId}`,
+    method: 'get',
+  })
+}

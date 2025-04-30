@@ -171,3 +171,21 @@ export function encodeOssFileUri(ossUri = '') {
   const suffix = ossUri.substring(i + 1)
   return prefix + encodeURIComponent(suffix)
 }
+
+/**
+ * 格式化文件大小为易读格式
+ * @param {number} bytes 文件大小（字节）
+ * @returns {string} 格式化后的字符串
+ */
+export function bytesToSize(bytes) {
+  if (bytes === 0) return '0 B'
+  
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  
+  // 保留2位小数，并去除末尾的0
+  const size = parseFloat((bytes / Math.pow(k, i)).toFixed(2))
+  
+  return size + ' ' + sizes[i]
+}
