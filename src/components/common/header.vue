@@ -7,7 +7,7 @@
             src="https://i.imgur.com/EJ3x16E.png" fit="contain" />
         </div>
       </router-link>
-      <router-link class="nav-item el-link el-link--default" :to="{ name: 'Index' }">
+      <router-link class="nav-item el-link el-link--default" :to="{ name: 'chatGPT' }">
         AI机器人
       </router-link>
       <!-- <a href="http://47.97.68.43:8080/#/de-link/dguKo3vx">

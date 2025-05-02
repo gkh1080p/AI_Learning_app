@@ -117,6 +117,12 @@ export default new Router({
       component: () => import('@/components/common/tool'),
     },
     {
+      path: '/chatGPT',
+      name: 'chatGPT',
+      meta: { title: 'AI机器人' },
+      component: () => import('@/components/chatGPT/chatGPT'),
+    },
+    {
       path: '/question/:id',
       name: 'question',
       meta: { title: '课后练习' },
