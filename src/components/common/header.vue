@@ -31,7 +31,7 @@
         <el-link v-if="user === null || Object.keys(user).length === 0" :underline="false" class="nav-item"
           @click="$login">登录/注册</el-link>
         <el-dropdown v-else class="avatar-container" trigger="hover">
-          <div class="avatar-wrapper">56
+          <div class="avatar-wrapper">
             <el-avatar :size="32" :src="user.avatar" fit="contain" />
             <span class="name">{{ user.nickname || '' }}</span>
             <i class="el-icon-caret-bottom" />
