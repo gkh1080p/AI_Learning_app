@@ -120,7 +120,8 @@ export default new Router({
       path: '/chatGPT',
       name: 'chatGPT',
       meta: { title: 'AI机器人' },
-      component: () => import('@/components/chatGPT/chatGPT'),
+      // component: () => import('@/components/chatGPT/chatGPT'),
+      component: () => import('@/components/chatGPT/puter'),
     },
     {
       path: '/question/:id',
