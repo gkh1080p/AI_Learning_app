@@ -1,11 +1,7 @@
 <template>
   <transition :name="transition" @after-leave="handleAfterLeave">
-    <div
-      v-show="visible"
-      class="puzzle-container"
-      :class="{'puzzle-shake':stat==='fail'}"
-      :style="`left: ${positionLeft}px;top: ${positionTop}px;`"
-    >
+    <div v-show="visible" class="puzzle-container" :class="{ 'puzzle-shake': stat === 'fail' }"
+      :style="`left: ${positionLeft}px;top: ${positionTop}px;`">
       <div class="puzzle-view" :style="`width:${width}px;height:${height}px;`">
         <div v-show="!image.loading" style="width: 100%;height: 100%">
           <img :src="image.src">
@@ -32,7 +28,7 @@
 
       <div class="slider-container">
         <div class="slider-track">
-          <div class="slider-tip" :style="stat==='ready'?'opacity: 1':''">拖动滑块完成拼图</div>
+          <div class="slider-tip" :style="stat === 'ready' ? 'opacity: 1' : ''">拖动滑块完成拼图</div>
         </div>
         <div class="slider-btn" :style="sliderBtnStyle" @mousedown="moveStart" @touchstart="moveStart" />
       </div>
@@ -56,20 +52,17 @@
 import BtnStopImage from './image/btn_stop.png'
 import BtnMoveImage from './image/btn_move.png'
 
-/*
-* https://github.com/Kevin-269581661/vue-puzzle-verification
-* 网上搬的例子，实际开发建议用极验
-* */
+
 export default {
   name: 'PuzzleVerify',
 
   props: {
-    // 动画名称，具体请查看transition.scss
+
     transition: {
       type: String,
       default: 'scale'
     },
-    // 画布图片的尺寸
+
     width: {
       type: Number,
       default: 260
@@ -98,7 +91,7 @@ export default {
   data() {
     return {
       visible: false,
-      stat: 'ready', // ready,move,success,fail,error
+      stat: 'ready',
       positionLeft: 0,
       positionTop: 0,
       resolve: () => ({}),
@@ -230,17 +223,19 @@ export default {
 
     initImage() {
       const imageListTemp = [
-        'https://snwjas-online-edu.oss-cn-shenzhen.aliyuncs.com/verify/v1.jpg',
-        'https://snwjas-online-edu.oss-cn-shenzhen.aliyuncs.com/verify/v2.jpg',
-        'https://snwjas-online-edu.oss-cn-shenzhen.aliyuncs.com/verify/v3.jpg',
-        'https://snwjas-online-edu.oss-cn-shenzhen.aliyuncs.com/verify/v4.jpg',
-        'https://snwjas-online-edu.oss-cn-shenzhen.aliyuncs.com/verify/v5.jpg',
-        'https://snwjas-online-edu.oss-cn-shenzhen.aliyuncs.com/verify/v6.jpg',
-        'https://snwjas-online-edu.oss-cn-shenzhen.aliyuncs.com/verify/v7.jpg'
+        'https://picsum.photos/260/160', // 图片1
       ]
+
+      // 设置图片加载中
       this.image.loading = true
+
+      // 随机获取图片索引
       const imgRandomIndex = Math.round(Math.random() * (imageListTemp.length - 1))
+
+      // 设置随机图片
       this.image.src = imageListTemp[imgRandomIndex]
+
+      // 返回 Promise，表示异步操作
       return new Promise(resolve => resolve())
     },
 
