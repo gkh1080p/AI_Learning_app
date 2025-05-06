@@ -7,10 +7,10 @@ import ElementUI from 'element-ui'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
-import '@/styles/index.scss' // global css
+import '@/styles/index.scss' 
 
-import NProgress from 'nprogress' // progress bar
-import 'nprogress/nprogress.css' // progress bar style
+import NProgress from 'nprogress' 
+import 'nprogress/nprogress.css' 
 
 import Verify from '@/components/verify'
 import Login from '@/components/common/globalLogin'
@@ -27,9 +27,9 @@ Vue.prototype.$login = Login
 let preventGetInfo = false
 
 // 路由发生变化修改页面title
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
+NProgress.configure({ showSpinner: false }) 
 router.beforeEach(async(to, from, next) => {
-  // start progress bar
+
   NProgress.start()
   if (to.meta.title) {
     const name = 'AI智慧在线教育平台'
