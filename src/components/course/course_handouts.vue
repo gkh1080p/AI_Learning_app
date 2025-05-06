@@ -5,11 +5,7 @@
       v-if="handouts.length">
       <el-table-column type="index" label="序号" width="60" align="center" />
       <el-table-column prop="name" label="名称" show-overflow-tooltip />
-      <el-table-column prop="size" label="大小" width="120" align="right">
-        <template #default="{ row }">
-          {{ formatSize(row.size) }}
-        </template>
-      </el-table-column>
+      <el-table-column prop="createTime" label="发布时间" width="120" align="right" />
       <el-table-column label="操作" width="120" align="center">
         <template #default="{ row }">
           <el-button type="text" @click="handleDownload(row)" class="download-btn">
@@ -24,7 +20,6 @@
 
 <script>
 import { getmaterials } from '@/api/content'
-import { bytesToSize } from '@/utils'
 
 export default {
   name: "StudentHandouts",
@@ -46,16 +41,10 @@ export default {
     this.fetchHandouts()
   },
   methods: {
-    // 格式化文件大小 (精确匹配图片中的显示格式)
-    formatSize(bytes) {
-      const size = bytesToSize(bytes)
-      return size.replace('KB', 'KB').replace('MB', 'MB') // 保持图片中的单位格式
-    },
 
     // 获取讲义列表
     fetchHandouts() {
       const id = this.course.id
-      console.log("当前课程ID:", id)
       console.log("coursere:", this.course)
 
       getmaterials(id).then(res => {
@@ -63,17 +52,16 @@ export default {
         this.handouts = res.data.map(item => ({
           id: item.id,
           name: item.title || item.name,
-          size: item.size,
-          url: item.downloadUrl || item.url  // 兼容不同字段名
+          createTime: item.createTime.split(' ')[0],
+          url: item.eduMaterialId
         }))
       }).catch(error => {
-        console.error('获取讲义失败:', error)
         this.$message.error('获取讲义列表失败')
       })
     },
 
-      // 下载功能（直接使用浏览器下载）
-      handleDownload(row) {
+    // 下载功能（直接使用浏览器下载）
+    handleDownload(row) {
       const link = document.createElement('a')
       link.href = row.url
       link.download = row.name
